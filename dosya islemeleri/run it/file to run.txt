@@ -1,0 +1,1301 @@
+#include <stdio.h>
+#include <string.h>
+#include<dirent.h>
+#include<string.h>
+#include<locale.h>
+int bas[20]={200};
+int artim=0;
+ char etiket[100];
+char yenietiket[100];
+char tumetiketler[200][200];
+char tumetiketler2[200][200];
+char tumtumetiketler[200][200];
+char tumtumetiketlerbosluksuz[200][200];
+int tumtumsayisibosluksuz=0;
+char parantezsiztumtumetiketler[200][200];
+int parantezsiztumtumetiketlersayisi=0;
+int parantezsizartim=0;
+int tumtumsayisi=0;
+int artim1=0;
+int tumetikettekrarsayisi[200]={0};
+int tumetikettekrarsayisi2[200]={0};
+int tumetikettekrarsayisi3[200]={0};
+int tumetikettekrarsayisi4[200]={0};
+int tumetiketleriminsayisi5[200]={0};
+int tumartim4=0;
+int artim2=0;
+char dosyaadlarim[200][200];
+int dongusayac=0;
+char dosyaadlar[200][200];
+char istenenetikler[300][200];
+int istenenboy=0;
+char yetimetiketler[300][200];
+char yetimetiketler2[300][200];
+char tumyetimetiketler[200][200];
+char tumguncelyetimetiketler[200][200];
+char parantezsiztumyetimetiketler[200][200];
+int parantezsizyetimartim=0;
+int artimyetim3=0;
+int artimyetim2=0;
+int artimyetim=0;
+char tmp[100];
+char dosyaetiketvar[100][100];
+int artim3=0;
+int dongudonum=0;
+char yol[300];
+int tumetiketleriminsayisi=0;
+int tumetiketdongu=0;
+int dongudonum2=0;
+//altklasordosyalaruzanty gondererek dizimin baslangycyny aldym
+void dosyaadlari(char *pointer)
+{
+ int j=0;
+		  char etiketicbir[10000][50];
+		  int etiketdegerbir=0;
+		  char etiketiciki[10000][50];
+		  int etiketdegeriki=0;
+          char *adres2;
+          adres2=strstr((pointer),".txt");
+     if(adres2!=NULL)
+     {
+        int kontrol=0;
+        char alinanveri[1000];
+
+        FILE*dosya;
+        dosya=fopen((pointer+j),"r");
+        fread(alinanveri,1,999,dosya);
+       alinanveri[1000]=0;
+      fseek(dosya,0,SEEK_END);
+      kontrol=ftell(dosya);
+     fclose(dosya);
+	 char karakter=(char)92;
+	    char *bol=strrchr((pointer),karakter);
+	   // printf("%s\n",bol);
+		int deger=0;
+	     const char*ayrac2=".";
+   char *ayir2=strtok(bol,ayrac2);
+   while(ayir2!=NULL)
+   { deger++;
+
+	if((deger)==1)
+	{strcpy(dosyaadlar[artim2],ayir2);
+     artim2++;
+    }
+   ayir2=strtok(NULL,ayrac2);
+   }
+
+     }
+
+  //dosya adlarýný /bu dahil okur
+   /*for(int l=0;l<artim2;l++)
+   {
+       printf("%s\n",dosyaadlar[l]);
+
+   }printf("xxxxxxx");
+*/
+}
+
+void etiketbulucu(char *altklasoruzantisi,char ara[],int boy)
+{
+
+    char altklasordosyalaruzanti[1000];
+    struct dirent *yapi;
+    DIR *dir = opendir(altklasoruzantisi);
+
+    // dir degili bir oluncaya kadar
+    if (!dir)
+        return;
+    //dizin acylmaz
+    while ((yapi = readdir(dir)) != NULL)
+    {
+        if (strcmp(yapi->d_name, ".") != 0 && strcmp(yapi->d_name, "..") != 0)
+        {
+
+            strcpy(altklasordosyalaruzanti,altklasoruzantisi);
+            strcat(altklasordosyalaruzanti, "\\");
+            strcat(altklasordosyalaruzanti, yapi->d_name);
+        //  printf("----%s\n",altklasordosyalaruzanti);
+
+
+
+          char *adres;
+          adres=strstr(altklasordosyalaruzanti,".txt");
+     if(adres!=NULL)
+     {int kontrol=0;
+        char alinanveri[1000];
+
+        FILE*dosya;
+        dosya=fopen(altklasordosyalaruzanti,"r");
+        fread(alinanveri,1,999,dosya);
+       alinanveri[1000]=0;
+      fseek(dosya,0,SEEK_END);
+      kontrol=ftell(dosya);
+     fclose(dosya);
+    if((kontrol==0))
+    {
+
+    }
+    if(kontrol!=0)
+    {  const char*ayrac2="\n,;:.-";
+   char *ayir2=strtok(alinanveri,ayrac2);
+   while(ayir2!=NULL)
+   {  char*ilkkose=strchr(ayir2,'[');
+      char *sonkose=strrchr(ayir2,']');
+      int elemansayisi=(sonkose-ilkkose+1);
+      if(ilkkose!=NULL&&sonkose!=NULL)
+      {strncpy(tumetiketler[artim],ilkkose,elemansayisi);
+       artim++;
+      }
+       ayir2=strtok(NULL,ayrac2);
+   }
+
+    int sayacx=0,yes=0;
+
+   //str tok'\n'ayir
+   int i,j;
+    const char*ayrac="\n";
+   char *ayir=strtok(alinanveri,ayrac);
+   while(ayir!=NULL)
+   {  char*ilkkose=strchr(ayir,'[');
+      char *sonkose=strrchr(ayir,']');
+      int elemansayisi=(sonkose-ilkkose+1);
+      if(ilkkose!=NULL&&sonkose!=NULL)
+      {strncpy(tumetiketler[artim],ilkkose,elemansayisi);
+
+       artim++;
+       tumetiketleriminsayisi++;
+      }
+
+       ayir=strtok(NULL,ayrac);
+   }
+
+
+
+
+    } dosyaadlari(altklasordosyalaruzanti);
+
+
+	}
+ etiketbulucu(altklasordosyalaruzanti,ara,boy);
+        }
+    }
+
+
+
+
+
+    for(int y=0;y<artim;y++)
+    {
+        for(int x=0;x<artim2;x++)
+        {    int yfark=0;
+           int adboy=1;
+             //bu sorunlu printf("y=%d\n",tumetiketler[y]);
+            int dosyaboy=strlen(dosyaadlar[x])-1;
+            //printf("%d ",dosyaboy);
+           for(int i=2;i<(dosyaboy+2);i++)
+           {
+               if(tumetiketler[y][i]!=dosyaadlar[x][adboy])
+               {
+                   yfark++;
+               }
+                adboy++;
+           }
+           if(yfark==0)
+           {
+               //printf("**%d",yfark);
+               //printf("-->%s",tumetiketler[y]);
+               strcpy(dosyaetiketvar[artim3],tumetiketler[y]);
+               artim3++;
+           }
+            //printf("%s\n",dosyaadlar[x]);
+        }
+
+       // printf("%s\n",tumetiketler[y]);
+    }
+for(int y=0;y<artim2;y++)
+    {//dosyalara bak
+	int buldum=0;
+        for(int x=0;x<artim;x++)
+        { //tumetiketler
+		int yfark=0;
+
+           int adboy=1;
+		   int dosyaboy=strlen(dosyaadlar[y])-1;
+		    for(int i=2;i<(dosyaboy+2);i++)
+			{
+			if(dosyaadlar[y][adboy]!=tumetiketler[x][i])
+			{
+			yfark++;
+
+			}
+			adboy++;
+			}
+			if(yfark==0)
+			{
+			buldum++;
+			}
+
+       // printf("%s\n",tumetiketler[x]);
+        }    // printf("%s\n",dosyaadlar[y]);
+		if(buldum==0)
+		{
+		    	if(dongudonum+1==dongusayac)
+		{
+
+		    strcpy(istenenetikler[istenenboy],dosyaadlar[y]);
+		    istenenboy++;
+		}// printf("istenen etiket---------------------------------------:%s\n",dosyaadlar[y]);
+
+		}
+
+
+    }
+//dosyasayim artim2
+// bu forun içindeki ifte  eger benim artim kadar artarsa sorun var
+// if'te artim3 dedik cunku hemdosya hemetiket olanla bakýyoruz
+
+
+     for(int y=0;y<artim;y++)
+    {int var=0;
+        for(int x=0;x<artim3;x++)
+        {
+            if(strcmp(tumetiketler[y],dosyaetiketvar[x])==0)
+            {
+                var++;
+            }
+
+        }
+        if(var==0)
+        {  if(dongudonum+1==dongusayac)
+        {
+           strcpy(yetimetiketler[artimyetim],tumetiketler[y]);
+            artimyetim++;
+        }
+
+        }
+        //printf("%s\n",tumetiketler[y]);
+    }
+    dongudonum++;
+    int count,i,j,x;
+  if(dongudonum==dongusayac)
+  {
+
+  int k=0,c=0;
+    for(i=0; i<artimyetim; i++)
+    {
+         if( strcmp(yetimetiketler[i],"yok")!=0)
+		{
+		    for(j=i+1; j<artimyetim; j++)
+
+            {
+        	   if(strcmp(yetimetiketler[i],yetimetiketler[j])==0)
+        	    {
+			       c++;
+			       strcpy(yetimetiketler[j],"yok");
+		       }
+	       }
+ 		}
+        if(strcmp(yetimetiketler[i],"yok")!=0)
+        {
+        	 strcpy(yetimetiketler[k++],yetimetiketler[i]);
+
+		}
+
+
+    }
+
+
+
+for(i=0; i<artimyetim-c; i++)
+    {
+       strcpy(yetimetiketler2[artimyetim2],yetimetiketler[i]);
+
+       artimyetim2++;
+
+
+
+    }
+
+
+  }
+
+
+   for(int art=0;art<artimyetim2;art++)
+    {     int deger3=0;
+         int yetboy=strlen(yetimetiketler2[art]);
+    if((yetimetiketler2[art][0]=='['&& yetimetiketler2[art][1]=='[')&& (yetimetiketler2[art][yetboy-2]==']'&& yetimetiketler2[art][yetboy-1]==']'))
+    {
+        deger3++;
+    }
+   if(deger3!=0)
+   {
+  strcpy(tumyetimetiketler[artimyetim3],yetimetiketler2[art]);
+  artimyetim3++;
+   }
+
+    }
+    if(dongudonum==dongusayac)
+    {
+         for(int x=0;x<artim;x++)
+    {
+        for(int y=0;y<artim;y++)
+         {
+
+                if(strcmp(tumetiketler[x],tumetiketler[y])==0)
+                { // printf("--------------%s\n",tumetiketler[x]);
+                    tumetikettekrarsayisi[x]++;
+                }
+
+
+         }
+
+
+    }
+    }
+
+    for(int x=0;x<artim;x++)
+    {
+       // printf("****************%d\n",tumetikettekrarsayisi[x]);
+    }
+
+
+
+
+	for(int l=0;l<artimyetim2;l++)
+    {
+       // printf("=========artim yetim2====%s\n",yetimetiketler2[l]);
+    }
+ if(dongudonum==dongusayac)
+  {
+
+  int k=0,c=0;
+    for(i=0; i<artim; i++)
+    {
+         if( strcmp(tumetiketler[i],"yok")!=0)
+		{
+		    for(j=i+1; j<artim; j++)
+
+            {
+        	   if(strcmp(tumetiketler[i],tumetiketler[j])==0)
+        	    {
+			       c++;
+			       strcpy(tumetiketler[j],"yok");
+		       }
+	       }
+ 		}
+        if(strcmp (tumetiketler[i],"yok")!=0)
+        {
+        	 strcpy(tumetiketler[k++],tumetiketler[i]);
+
+		}
+
+
+    }
+
+
+
+for(i=0; i<artim-c; i++)
+    {
+       //printf("****tum etiketler2 tekrarsýz:%s\n",tumetiketler[i]);
+       strcpy(tumetiketler2[artim1],tumetiketler[i]);
+       artim1++;
+
+
+    }
+
+
+  }
+
+   for(int art=0;art<artim1;art++)
+    {     int deger3=0;
+         int yetboy=strlen(tumetiketler2[art]);
+    if((tumetiketler2[art][0]=='['&& tumetiketler2[art][1]=='[')&& (tumetiketler2[art][yetboy-2]==']'&& tumetiketler2[art][yetboy-1]==']'))
+    {
+        deger3++;
+    }
+   if(deger3!=0)
+   {
+  strcpy(tumtumetiketler[tumtumsayisi],tumetiketler2[art]);
+  tumtumsayisi++;
+   }
+
+
+    }
+
+for(int i=0;i<tumtumsayisi;i++)
+{
+   // printf("*****************************tumtumetiketler:%s\n",tumtumetiketler[i]);
+}
+for(int x=0;x<artim1;x++)
+    {
+        for(int y=0;y<artim;y++)
+        {
+            if(strcmp(tumetiketler2[x],tumetiketler[y])==0)
+            {
+                tumetikettekrarsayisi2[x]=tumetikettekrarsayisi[y];
+                y=artim-1;
+            }
+        }
+    }
+  for(int x=0;x<tumtumsayisi;x++)
+        {int kontrol=0;
+            for(int y=0;y<artim;y++)
+           {
+                if(strcmp(tumtumetiketler[x],tumetiketler2[y])==0)
+            {
+
+            }
+               if(kontrol!=0)
+               {
+                    tumetikettekrarsayisi3[x]=tumetikettekrarsayisi2[y];
+                y=artim1-1;
+               }
+           }
+
+
+        }
+    if(dongudonum==dongusayac)
+    {
+        for(int x=0;x<tumtumsayisi;x++)
+        {int bosluk=0;
+           char *ayrac=" ";
+           char tx[200];
+           strcpy(tx,tumtumetiketler[x]);
+           char *ayir=strtok(tx,ayrac);
+           while(ayir!=NULL)
+           {
+
+               bosluk++;
+               ayir=strtok(NULL,ayrac);
+           }
+           if(bosluk<3)
+           {
+                int uzunluk=strlen(tumtumetiketler[x]);
+                int art=0;
+                for(int i=0;i<uzunluk;i++)
+                {
+                    tumtumetiketlerbosluksuz[tumtumsayisibosluksuz][art]=tumtumetiketler[x][i];
+                    art++;
+                }
+
+                tumtumsayisibosluksuz++;
+           }
+
+
+
+        }
+    }
+        if(dongudonum==dongusayac)
+    {
+        for(int x=0;x<tumtumsayisi;x++)
+        {int bosluk=0;
+           char *ayrac=" ";
+           char tx[200];
+           strcpy(tx,tumtumetiketler[x]);
+           //printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx %s\n",tumtumetiketler[x]);
+           char *ayir=strtok(tx,ayrac);
+           while(ayir!=NULL)
+           {
+
+               bosluk++;
+               ayir=strtok(NULL,ayrac);
+           }
+           if(bosluk<3)
+           {
+                int uzunluk=strlen(tumtumetiketler[x]);
+                int art=0;
+                for(int i=2;i<uzunluk-2;i++)
+                {
+                    parantezsiztumtumetiketler[parantezsizartim][art]=tumtumetiketler[x][i];
+                    art++;
+                }
+
+                parantezsizartim++;
+           }
+
+
+
+        }
+    }
+      if(dongudonum==dongusayac)
+    {
+        for(int x=0;x<artimyetim3;x++)
+        {int bosluk2=0;
+           char *ayrac=" ";
+           char tx[200];
+           strcpy(tx,tumyetimetiketler[x]);
+           char *ayir=strtok(tx,ayrac);
+           while(ayir!=NULL)
+           {
+
+               bosluk2++;
+               ayir=strtok(NULL,ayrac);
+           }
+           if(bosluk2<3)
+           {
+                int uzunluk=strlen(tumyetimetiketler[x]);
+                int art=0;
+                for(int i=2;i<uzunluk-2;i++)
+                {
+                    parantezsiztumyetimetiketler[parantezsizyetimartim][art]=tumyetimetiketler[x][i];
+                    art++;
+                }
+
+                parantezsizyetimartim++;
+           }
+
+
+
+        }
+    }
+
+    if(dongudonum==dongusayac)
+    {
+        for(int x=0;x<tumtumsayisibosluksuz;x++)
+        {
+           // printf("------------------------------------%s\n",tumtumetiketlerbosluksuz[x]);
+        }
+    }
+closedir(dir);
+
+
+}
+
+      void etikettekrar(char *altklasoruzantisi,char ara[],int boy,int tekrarsayi)
+{
+
+    char altklasordosyalaruzanti[1000];
+    struct dirent *yapi;
+    DIR *dir = opendir(altklasoruzantisi);
+
+    // dir degili bir oluncaya kadar
+    if (!dir)
+        return;
+    //dizin acylmaz
+    while ((yapi = readdir(dir)) != NULL)
+    {
+        if (strcmp(yapi->d_name, ".") != 0 && strcmp(yapi->d_name, "..") != 0)
+        {
+            //printf("----------------------------%s\n",tumtumetiketlerbosluksuz[tekrarsayi]);
+            strcpy(altklasordosyalaruzanti,altklasoruzantisi);
+            strcat(altklasordosyalaruzanti, "\\");
+            strcat(altklasordosyalaruzanti, yapi->d_name);
+                  char *adres;
+          adres=strstr(altklasordosyalaruzanti,".txt");
+     if(adres!=NULL)
+     {int kontrol=0;
+        char alinanveri[1000];
+
+        FILE*dosya;
+        dosya=fopen(altklasordosyalaruzanti,"r");
+        fread(alinanveri,1,999,dosya);
+       alinanveri[1000]=0;
+      fseek(dosya,0,SEEK_END);
+      kontrol=ftell(dosya);
+     fclose(dosya);
+    if((kontrol==0))
+    {
+
+    }
+    if(kontrol!=0)
+    {
+
+    int sayacx=0,yes=0;
+
+   //str tok'\n'ayir
+   int i,j;
+    const char*ayrac="\n";
+   char *ayir=strtok(alinanveri,ayrac);
+   while(ayir!=NULL)
+   {
+
+
+       //string icinde string aramastr  hangi satir-satirlarda var bak
+            yes=strlen(ayir);
+
+            for(i=0;i<=yes-boy;i++)
+             {
+                 for(j=0;j<(boy);j++)
+                 {
+                     if(ayir[i+j]!=ara[j])
+                     {
+                         break;
+                     }
+
+                 } if(j==(boy))
+                     {   tumetiketleriminsayisi5[tekrarsayi]++;
+                     }
+             }
+       ayir=strtok(NULL,ayrac);
+   }
+
+
+
+
+    }
+
+
+	}
+
+
+
+
+
+	     etikettekrar(altklasordosyalaruzanti,ara,boy,tekrarsayi);
+
+
+        }
+    }
+
+
+closedir(dir);
+
+}
+void arama(char *altklasoruzantisi,char ara[],int boy)
+{
+
+    char altklasordosyalaruzanti[1000];
+    struct dirent *yapi;
+    DIR *dir = opendir(altklasoruzantisi);
+
+    // dir degili bir oluncaya kadar
+    if (!dir)
+        return;
+    //dizin acylmaz
+    while ((yapi = readdir(dir)) != NULL)
+    {
+        if (strcmp(yapi->d_name, ".") != 0 && strcmp(yapi->d_name, "..") != 0)
+        {
+
+            strcpy(altklasordosyalaruzanti,altklasoruzantisi);
+            strcat(altklasordosyalaruzanti, "\\");
+            strcat(altklasordosyalaruzanti, yapi->d_name);
+        //  printf("----%s\n",altklasordosyalaruzanti);
+
+
+
+          char *adres;
+          adres=strstr(altklasordosyalaruzanti,".txt");
+     if(adres!=NULL)
+     {int kontrol=0;
+        char alinanveri[1000];
+
+        FILE*dosya;
+        dosya=fopen(altklasordosyalaruzanti,"r");
+        fread(alinanveri,1,999,dosya);
+       alinanveri[1000]=0;
+      fseek(dosya,0,SEEK_END);
+      kontrol=ftell(dosya);
+     fclose(dosya);
+    if((kontrol==0))
+    {
+
+    }
+    if(kontrol!=0)
+    {
+
+    int sayacx=0,yes=0;
+
+   //str tok'\n'ayir
+   int i,j;
+    const char*ayrac="\n";
+   char *ayir=strtok(alinanveri,ayrac);
+   while(ayir!=NULL)
+   {
+
+      sayacx++;
+       //string icinde string aramastr  hangi satir-satirlarda var bak
+            yes=strlen(ayir);
+
+            for(i=0;i<=yes-boy;i++)
+             {
+                 for(j=0;j<(boy);j++)
+                 {
+                     if(ayir[i+j]!=ara[j])
+                     {
+                         break;
+                     }
+
+                 } if(j==(boy))
+                     {
+
+                          char karakter=(char)92;
+                          char *bol=strrchr(altklasordosyalaruzanti,karakter);
+                         printf("\n%s dosyasýnda %d.satirda\n",(bol+1),sayacx);
+                     }
+             }
+       ayir=strtok(NULL,ayrac);
+   }
+
+
+
+
+    }
+
+
+	}
+        arama(altklasordosyalaruzanti,ara,boy);
+        }
+    }
+
+
+closedir(dir);
+dongudonum2++;
+ if(dongudonum2==dongusayac)
+{
+        int deger2=0;
+    if((ara[0]=='['&& ara[1]=='[')&& (ara[boy-2]==']'&& ara[boy-1]==']'))
+    {
+        deger2++;
+    }
+   if(deger2==0)
+   {
+    printf("girilen kelimedir.\n");
+   }
+   else
+   {
+       printf("girilen etiketdir.\n");
+   }
+
+}
+    if(dongudonum2==dongusayac)
+    {
+         for(int art=0;art<parantezsizyetimartim;art++)
+    {
+   printf("YETÝM ETÝKEtLERÝMÝN HEPSÝ:(ETÝKET VAR DOSYA AD YOK)-->%s\n ",parantezsiztumyetimetiketler[art]);
+   }
+
+   printf("\n\n\n");
+    for(int art=0;art<istenenboy;art++)
+    {   char karakter=(char)92;
+        char *bol=strrchr(istenenetikler[art],karakter);
+        strcpy(istenenetikler[art],(bol+1));
+         printf("ÝSTENEN ETÝKETLERÝN HEPSÝ:(DOSYA VAR ETÝKET YOK)-->%s\n",istenenetikler[art]);
+    }
+    }
+
+
+}
+void guncelleme(char *altklasoruzantisi,int secim2)
+{
+    char altklasordosyalaruzanti[1000];
+    struct dirent *yapi;
+
+    DIR *dir = opendir(altklasoruzantisi);
+    // dir degili bir oluncaya kadar
+    if (!dir)
+        return;
+    //dizin acylmaz
+    while ((yapi = readdir(dir))!= NULL)
+    {
+        if (strcmp(yapi->d_name, ".") != 0 && strcmp(yapi->d_name, "..") != 0)
+        {
+            strcpy(altklasordosyalaruzanti,altklasoruzantisi);
+            strcat(altklasordosyalaruzanti, "\\");
+            strcat(altklasordosyalaruzanti, yapi->d_name);
+                  FILE*yaz;
+if((yaz=fopen(yol,"w"))!=NULL)
+{
+
+fputs("  Etiket Listesi - Tekrar Sayýsý \n",yaz);
+for(int x=0;x<parantezsizartim;x++)
+{
+    fprintf(yaz,"%s",parantezsiztumtumetiketler[x]);
+    fputs("\t\t",yaz);
+    fprintf(yaz,"%d",tumetiketleriminsayisi5[x]);
+    fputs("\n",yaz);
+}
+fputs("   Yetim Etiketler\n",yaz);
+for(int y=0;y<parantezsizyetimartim;y++)
+{
+    fprintf(yaz,"%s",parantezsiztumyetimetiketler[y]);
+     fputs("\n",yaz);
+}
+fputs("   Guncel Liste",yaz);
+fputs("\n",yaz);
+fputs("   Etiket Listesi - Tekrar Sayýsý \n",yaz);
+
+for(int x=0;x<parantezsizartim;x++)
+{
+    fprintf(yaz,"%s",parantezsiztumtumetiketler[x]);
+     fputs("\t\t",yaz);
+     fprintf(yaz,"%d",tumetiketleriminsayisi5[x]);
+    fputs("\n",yaz);
+}
+fputs(" Yetim Etiketler\n",yaz);
+
+}fclose(yaz);
+ if(secim2==2)
+   {
+
+       int giris=0;
+     char dosyayetimetiket[100];
+     char dosyayetimetiketbosluksuz[100];
+    printf("\t YETÝM ETÝKET LÝSTESÝ\n");
+    for(int y=0;y<parantezsizyetimartim;y++)
+{
+    printf("%s \n",parantezsiztumyetimetiketler[y]);
+
+}
+printf("txt dosyasýný oluþturmak istediðiniz yetim etiketi giriniz:");
+fflush(stdin);
+fgets(dosyayetimetiket,100,stdin);
+giris++;
+//printf("***%s %d****\n",dosyayetimetiket,strlen(dosyayetimetiket));
+strcpy(dosyayetimetiketbosluksuz,dosyayetimetiket);
+//printf("%s",altklasoruzantisi);
+//printf("%d",parantezsizyetimartim);
+char tmpaltklasoruzantisi[200];
+  strcpy(tmpaltklasoruzantisi,altklasoruzantisi);
+  strcat(tmpaltklasoruzantisi,"\\");
+  strcat(tmpaltklasoruzantisi,dosyayetimetiket);
+  int atboy=strlen(tmpaltklasoruzantisi);
+  tmpaltklasoruzantisi[atboy-1]='.';
+  strcat(tmpaltklasoruzantisi,"txt");
+
+  //printf("-------------------%s %d",dosyayetimetiket,strlen(dosyayetimetiket));
+
+ //printf("---%s------------------",tmpaltklasoruzantisi);
+    for(int k=0;k<parantezsizyetimartim;k++)
+  {
+    if(strncmp(parantezsiztumyetimetiketler[k],dosyayetimetiket,(strlen(dosyayetimetiket)-1))==0)
+    {//printf("yyyyyyyyyyyy");
+
+    FILE*dosya2;
+   if((dosya2=fopen(tmpaltklasoruzantisi,"w"))!=NULL)
+   {fprintf(dosya2,"Dersin Kodu: %d\n",bas[0]);
+    fputs("Dersin adi: ",dosya2);
+
+    fprintf(dosya2,"%s",dosyayetimetiket);
+    fputs("\n",dosya2);
+    fputs("Dersin Icerigi: ",dosya2);
+    bas[1]=201;
+    bas[2]=202;
+    bas[3]=203;
+    bas[4]=204;
+    bas[5]=205;
+    bas[6]=206;
+    bas[7]=207;
+
+   }fclose(dosya2);
+    }
+    if(strncmp(parantezsiztumyetimetiketler[k],dosyayetimetiket,(strlen(dosyayetimetiket)-1))!=0)
+    {
+        FILE*yaz2;
+        if((yaz2=fopen(yol,"a+"))!=NULL)
+        {
+            fprintf(yaz2,"%s",parantezsiztumyetimetiketler[k]);
+            fputs("\n",yaz2);
+        }fclose(yaz2);
+
+    }
+
+/*
+for(int l=0;l<artimyetim3;l++)
+{
+   if(strcmp(tumyetimetiketler[l],tumyetimetiketler[k])==0)
+   {
+       for(int j=l;j<artimyetim3;j++)
+       {
+           strcpy(tumguncelyetimetiketler[j],tumyetimetiketler[j+1]);
+       }
+       artimyetim3--;
+       l--;
+   }
+
+}
+*/
+  } printf("\nProgram sonlandýrýlýyor...\n");
+   printf("\noutput.txt guncellendi ,output.txt bakýnýz\n");
+   exit(0);
+   }
+
+
+
+
+            guncelleme(altklasordosyalaruzanti,secim2);
+        }
+    }
+
+    closedir(dir);
+
+//guncellemeaddegis("C:\\Users\\murat\\OneDrive\\Masaüstü\\tmp.txt");
+
+}
+void dosyayazma()
+{
+printf("dosya outputa yazdýrýldý\n");
+FILE*yaz;
+if((yaz=fopen(yol,"w"))!=NULL)
+{
+
+fputs("  Etiket Listesi - Tekrar Sayýsý \n",yaz);
+for(int x=0;x<parantezsizartim;x++)
+{
+    fprintf(yaz,"%s",parantezsiztumtumetiketler[x]);
+    fputs("\t\t",yaz);
+    fprintf(yaz,"%d",tumetiketleriminsayisi5[x]);
+    fputs("\n",yaz);
+}
+fputs("   Yetim Etiketler\n",yaz);
+for(int y=0;y<parantezsizyetimartim;y++)
+{
+    fprintf(yaz,"%s",parantezsiztumyetimetiketler[y]);
+     fputs("\n",yaz);
+}
+fputs("   Guncel Liste",yaz);
+fputs("\n",yaz);
+fputs("   Etiket Listesi - Tekrar Sayýsý \n",yaz);
+for(int x=0;x<parantezsizartim;x++)
+{
+    fprintf(yaz,"%s",parantezsiztumtumetiketler[x]);
+     fputs("\t\t",yaz);
+     fprintf(yaz,"%d",tumetiketleriminsayisi5[x]);
+    fputs("\n",yaz);
+}
+fputs("    Yetim Etiketler\n",yaz);
+for(int y=0;y<parantezsizyetimartim;y++)
+{
+    fprintf(yaz,"%s",parantezsiztumyetimetiketler[y]);
+     fputs("\n",yaz);
+}
+}
+fclose(yaz);
+
+
+}
+void guncelleme2(char *altklasoruzantisi,int secim2)
+{
+    char altklasordosyalaruzanti[1000];
+    struct dirent *yapi;
+
+    DIR *dir = opendir(altklasoruzantisi);
+    // dir degili bir oluncaya kadar
+    if (!dir)
+        return;
+    //dizin acylmaz
+    while ((yapi = readdir(dir))!= NULL)
+    {
+        if (strcmp(yapi->d_name, ".") != 0 && strcmp(yapi->d_name, "..") != 0)
+        {
+            strcpy(altklasordosyalaruzanti,altklasoruzantisi);
+            strcat(altklasordosyalaruzanti, "\\");
+            strcat(altklasordosyalaruzanti, yapi->d_name);
+
+
+          char *adres;
+          adres=strstr(altklasordosyalaruzanti,".txt");
+          if(adres!=NULL)
+         {
+             int kontrol=0;
+            FILE*dosya;
+            dosya=fopen(altklasordosyalaruzanti,"r");
+            fseek(dosya,0,SEEK_END);
+            kontrol=ftell(dosya);
+            fclose(dosya);
+
+    if((kontrol==0))
+    {
+
+    }
+    if(kontrol!=0)
+    {
+  int buldum;
+// satýr satýr basmaya çalýþ
+//C:\\Users\\murat\\OneDrive\\Masaüstü\\Üniversite\\Bölümler\\Bilgisayar Mühendisliði.txt
+//altklasordosyalaruzanti yaz
+//rename ve remove ne alýr
+ FILE *fpdosya;
+if(fpdosya = fopen(altklasordosyalaruzanti,"w+")!=NULL)
+{
+buldum=0;
+char satir[400];
+while(fgets(satir,strlen(satir),fpdosya)!=NULL)
+{
+printf("\nx5x5\n\n");
+
+printf("satir: %s\n", satir);
+FILE*fp2;
+if(fp2=fopen("C:\\Users\\murat\\OneDrive\\Masaüstü\\gecici\\murat.txt","w"))
+{
+
+       char*varyok;
+		if((varyok=strstr(satir,etiket))!=NULL)
+        {buldum++;
+        fseek(fp2,0,SEEK_END);
+        char yedekdizi[200];
+        int strgelenesayi=varyok-&satir[0];
+        for(int x=0;x<strgelenesayi;x++)
+        {
+            yedekdizi[x]=satir[x];
+        }
+        fprintf(fp2,"%s",yedekdizi);
+        int etboy=strlen(yenietiket);
+        strncpy(varyok,yenietiket,(etboy-1));
+        fprintf(fp2,"%s",varyok);
+        char etiketsonrasi[200];
+        strcpy(etiketsonrasi,&satir[strgelenesayi+etboy-1]);
+       fprintf(fp2,"%s",etiketsonrasi);
+        }
+        else
+        {
+           fprintf(fp2,"%s",satir);
+           fputs("\n",fp2);
+        }
+
+
+}fclose(fp2);
+}
+
+
+
+
+    if(buldum!=0)
+    { int degeryeni=0;
+    char  adtmp[300];
+    const char *ayracyeni=".";
+    char *ayiryeni=strtok(altklasordosyalaruzanti,ayracyeni);
+    while(ayiryeni!=NULL)
+    { degeryeni++;
+      if(degeryeni==1)
+      {
+       strcpy(adtmp,ayiryeni);
+       char *boslukadres=strchr(ayiryeni,' ');
+       *boslukadres='_';
+      }
+        ayiryeni=strtok(NULL,ayracyeni);
+    }
+
+
+
+        char tmpdizi[1000][500];
+        int tmpsayac=0;
+        FILE*fp5;
+        if(fp5=fopen("C:\\Users\\murat\\OneDrive\\Masaüstü\\gecici\\murat.txt","r+"))
+        {
+char satir2[550];
+while(fgets(satir2,strlen(satir2),fp5)!=NULL)
+{fprintf(fpdosya,"%s",satir2);
+ fputs("\n",fpdosya);
+}
+
+        }
+        fclose(fp5);
+
+                    rename(altklasordosyalaruzanti,adtmp);
+                    remove("C:\\Users\\murat\\OneDrive\\Masaüstü\\gecici\\murat.txt");
+    }
+
+
+  }
+
+  fclose(fpdosya);
+
+
+    }
+
+    }
+
+
+
+
+
+
+
+            guncelleme2(altklasordosyalaruzanti,secim2);
+        }
+    }
+
+    closedir(dir);
+
+//guncellemeaddegis("C:\\Users\\murat\\OneDrive\\Masaüstü\\tmp.txt");
+
+}
+
+
+int main()
+{ //HOCAM ÝYÝGUNLER,YAZDIGIM KOD CALIÞIYORDU C DOSYASINDAN EXE 'YÝ DÝREKT MASAUSTUNE KOPYALADIM O YUZDEN SORUN OLUYOR.
+     setlocale(LC_ALL,"Turkish");
+
+
+int secim;
+do{
+int sayac2=0,sayac=0;
+    int s1=0,s2=0,s3=0,s4=0,s5=0,s6=0;
+    int x1=0,x2=0,x3=0,x4=0,x5=0,x6=0;
+
+   DIR*dizin;//dizin dosyalari tutan yapi
+   struct dirent* gelendizin;
+   char anaklasor[20][200];
+
+   dizin=opendir("C:\\Users\\murat\\OneDrive\\Masaüstü\\Üniversite");
+   if(dizin==NULL)
+   {
+       printf("dizin cagirmada hata var\n");
+       return 1;
+   }
+
+   while((gelendizin=readdir(dizin))!=NULL)
+   {
+      strcpy(anaklasor[s1],gelendizin->d_name);
+      s1++;x1++;
+
+   }
+closedir(dizin);
+for(int i=0;i<x1;i++)
+    {
+        char*pointer;
+        char c='.';
+        pointer=strchr(anaklasor[i],c);
+        if(pointer==NULL)
+        {
+         sayac2++;
+       }
+    }
+char altklasad[sayac2][100];
+char tmp[sayac2][100];
+ for(int i=0;i<x1;i++)
+    {
+        char*pointer;
+        char c='.';
+        pointer=strchr(anaklasor[i],c);
+        if(pointer==NULL)
+        {
+
+         strcpy(altklasad[sayac],"C:\\Users\\murat\\OneDrive\\Masaüstü\\Üniversite\\");
+         strcpy(yol,"C:\\Users\\murat\\OneDrive\\Masaüstü\\Üniversite\\");
+         strcat(yol,"output.txt");
+         strcat(altklasad[sayac],anaklasor[i]);
+         strcpy(tmp[sayac],altklasad[sayac]);
+
+         sayac++;
+       }
+    }
+    //
+
+  char icerik[200];
+  char icerik2[300];
+  char icerik3[200];
+  char icerik4[200];
+  char icerik5[200];
+
+   printf("1-kelime ve etiket aramasi yapma\n");
+    printf("2-etiket adý güncelleme\n");
+    printf("3-output dosyasýna yazdýrma\n");
+    printf("Seçiminizi yapýnýz[1-3]arasý:\n");
+    scanf("%d",&secim);
+   fflush(stdin);
+ // kelime istemi
+
+    char kelime[50];
+
+    int x,y,z;
+    dongusayac=sayac2;
+ int secim2;
+
+
+for(int y=0;y<sayac2;y++)
+{    strcpy(icerik4,altklasad[y]);
+    etiketbulucu(icerik4,kelime,(x-1));
+
+}
+
+    for(int a=0;a<sayac2;a++)
+{ for(int b=0;b<tumtumsayisibosluksuz;b++)
+    {
+        char gecici[100];
+
+        strcpy(gecici,tumtumetiketlerbosluksuz[b]);
+    strcpy(icerik5,altklasad[a]);
+    //printf("*****%s\n",icerik5);
+   // printf("boy:%d %s\n",strlen(gecici),tumtumetiketlerbosluksuz[b]);
+    int boy2=strlen(gecici);
+    etikettekrar(icerik5,gecici,boy2,b);
+    }
+
+}
+
+  if(secim==1)
+    {
+        printf("\n ARAMA FONKSÝYONUNDA ARANACAK KELÝMEYÝ GÝRÝNÝZ:");
+        fgets(kelime,50,stdin);
+          fflush(stdin);
+          int len3=strlen(kelime);
+          if (len3 > 0 && yenietiket[len3-1] == '\n')
+  {yenietiket[len3-1] = '\0';
+  }
+          x=strlen(kelime);
+
+    }
+    if(secim==2)
+    {
+         printf("1-etiket guncelleme\n");
+         printf("2-yetim etikete txt dosyasý oluþturma\n");
+         printf("SEÇÝMÝNÝZ:");
+         scanf("%d",&secim2);
+    }
+   if(secim2==1)
+   {
+
+
+printf("etiket adýný giriniz [köseli parantezli olarak]:");
+fflush(stdin);
+int len2 = strlen(etiket);
+if (len2 > 0 && etiket[len2-1] == '\n')
+  {etiket[len2-1] = '\0';
+  }
+fgets(etiket,100,stdin);
+printf("eski etiket yerine girilecek etiketi yazýnýz[köþeli parantezli olarak] :");
+fflush(stdin);
+int len3= strlen(yenietiket);
+if (len3 > 0 && yenietiket[len3-1] == '\n')
+  {yenietiket[len3-1] = '\0';
+  }
+fgets(yenietiket,100,stdin);
+printf("%s*-*--%d",yenietiket,strlen(yenietiket));
+
+   }
+
+            switch(secim)
+    {
+    case 0:
+       printf("cýkýþ yapýlýyor ");
+       exit(1);
+    case 1:
+         for(int i=0;i<sayac2;i++)
+         {
+  //printf("\n\n%s\n",altklasad[i]);
+  strcpy(icerik,altklasad[i]);
+  arama(icerik,kelime,(x-1));
+         }
+         break;
+    case 2:
+        for(int j=0;j<sayac2;j++)
+        { //printf("\n\n*****************************************%s\n",altklasad[j]);
+          if(secim2==2)
+          {
+          strcpy(icerik2,altklasad[j]);
+          guncelleme(icerik2,secim2);
+          }
+          if(secim2==1)
+          {
+               strcpy(icerik2,altklasad[j]);
+               guncelleme2(icerik2,secim2);
+          }
+
+        }
+        break;
+    case 3:
+  dosyayazma();
+       break;
+    default:
+        printf("Gecersiz seçim\n");
+        break;
+    }
+
+  }while(secim!=0);
+
+    return 0;
+}
+
+
