@@ -8,12 +8,12 @@ fazla klasör içeren örnek verilebilir. Arama işlemi tüm alt klasörlerde ya
 veya daha fazla txt dosyası ve farklı uzantılarda (.docx, .config, .png, .gif vb.) birçok dosya
 bulunmaktadır. Her txt dosyasının içerisinde metin ve bu metinler içerisinde etiketler bulunmaktadır.
 Bir etiket birden fazla txt dosyası içerisinde geçebilir.
- Etiket formatı:
+ Etiket formatı:
 o Eğer bir kelime etiket ise formatı şu şekillerde olmalıdır:
- [[kelime]], [[kelime1 kelime2]]
+ [[kelime]], [[kelime1 kelime2]]
 o Hatalı etiket formatları:
- [[kelime], [kelime]], [kelime], {{kelime}} vb.
- Yetim etiket:
+ [[kelime], [kelime]], [kelime], {{kelime}} vb.
+ Yetim etiket:
 o Alt klasörlerde etiketlere ait txt dosyaları bulunmaktadır. Ancak her etikete ait txt
 dosyası olmak zorunda değildir. Aynı şekilde her txt dosyasının etiketi olmak
 zorunda değildir.
@@ -40,4 +40,4 @@ yetim etiketler listesinden silindiğinden emin olunmalıdır.
 Dosyaya Yazma
 Ana klasörün içerisinde bir output.txt dosyası olmalıdır ve programın tüm çıktıları bu dosyaya
 yazdırılmalıdır. Çıktılarda tüm etiketler listelenmeli, toplamda kaç adet olduğu bilgisi yer almalıdır.
-Bunun yanı sıra yetim etiketlerin de listesi oluşturulmalıdır. Örnek output.txt Şekil 2’de verilmiştir.
+Bunun yanı sıra yetim etiketlerin de listesi oluşturulmalıdır. 
